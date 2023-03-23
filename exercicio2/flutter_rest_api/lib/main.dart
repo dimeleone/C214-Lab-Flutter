@@ -9,13 +9,9 @@ Future<Book> fetchBook() async {
       .get(Uri.parse('https://www.googleapis.com/books/v1/volumes?q=sherlock'));
 
   if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
     return Book.fromJson(jsonDecode(response.body));
   } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load book');
+    throw Exception('Falha ao carregar o livro');
   }
 }
 
@@ -63,21 +59,21 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Fetch Data Example',
+      title: 'Livro',
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.blueGrey,
       ),
       home: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Livro',
+            'Livros sobre Sherlock Holmes',
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
           ),
           centerTitle: true,
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: Colors.blueGrey,
         ),
         body: Center(
           child: FutureBuilder<Book>(
@@ -88,7 +84,7 @@ class _MyAppState extends State<MyApp> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.book_online, size: 80, color: Colors.deepPurple),
+                    Icon(Icons.book_online, size: 80, color: Colors.blueGrey),
                     const SizedBox(height: 20),
                     Text(
                       book.title,
@@ -107,7 +103,7 @@ class _MyAppState extends State<MyApp> {
               } else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
               }
-              // By default, show a loading spinner.
+
               return const CircularProgressIndicator();
             },
           ),
