@@ -95,7 +95,7 @@ class _MyAppState extends State<MyApp> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      'by ${book.author}',
+                      'por ${book.author}',
                       style: const TextStyle(fontSize: 16),
                     ),
                   ],
