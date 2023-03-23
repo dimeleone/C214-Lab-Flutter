@@ -4,9 +4,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-Future<Book> fetchBook() async {
-  final response = await http
-      .get(Uri.parse('https://www.googleapis.com/books/v1/volumes?q=sherlock'));
+Future<Book> fetchBook(int index) async {
+  final response = await http.get(Uri.parse(
+      'https://www.googleapis.com/books/v1/volumes?q=sherlock&startIndex=$index'));
 
   if (response.statusCode == 200) {
     return Book.fromJson(jsonDecode(response.body));
@@ -49,11 +49,19 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late Future<Book> futureBook;
+  int currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    futureBook = fetchBook();
+    futureBook = fetchBook(currentIndex);
+  }
+
+  void getNextBook() {
+    setState(() {
+      currentIndex++;
+      futureBook = fetchBook(currentIndex);
+    });
   }
 
   @override
@@ -74,6 +82,12 @@ class _MyAppState extends State<MyApp> {
           ),
           centerTitle: true,
           backgroundColor: Colors.blueGrey,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.arrow_forward),
+              onPressed: getNextBook,
+            ),
+          ],
         ),
         body: Center(
           child: FutureBuilder<Book>(
