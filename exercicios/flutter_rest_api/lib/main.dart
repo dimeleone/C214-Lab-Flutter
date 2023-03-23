@@ -64,6 +64,15 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void getPreviousBook() {
+    if (currentIndex > 0) {
+      setState(() {
+        currentIndex--;
+        futureBook = fetchBook(currentIndex);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -83,6 +92,10 @@ class _MyAppState extends State<MyApp> {
           centerTitle: true,
           backgroundColor: Colors.blueGrey,
           actions: [
+            IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: getPreviousBook,
+            ),
             IconButton(
               icon: Icon(Icons.arrow_forward),
               onPressed: getNextBook,
